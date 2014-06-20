@@ -38,12 +38,12 @@ testing<-cbind(subject_test, y_test, x_test)
 setwd("C:/UCI HAR Dataset")
 features.names<-read.table("features.txt")
 
-#4b. Reading in the feature names as a table creates a table with 2 columns, we will only pull from the column with the variable 
-# descriptions.
+#4b. Reading in the feature names as a table creates a table with 2 columns, we will only pull from the column with
+# the variable descriptions.
 features<-features.names[,2]
 
-#4c. R automatically converts the text in feature.names to factors; we will convert these names into characters so we can read 
-# them as column headers.
+#4c. R automatically converts the text in feature.names to factors; we will convert these names into characters so 
+# we can read them as column headers.
 features<-as.character(features)
 all.cols<-c("SubjectID", "Activity", features)
 
@@ -54,7 +54,7 @@ names(training)<-all.cols
 #1c. We can use rbind to merge the training and testing datasets because all columns follow the same order as eachother.
 merged.dat<-rbind(training,testing)
 
-#This completes Part 1 and Part 4 of the assignment.
+# This completes Part 1 and Part 4 of the assignment.
 
 #3a. Before tackling Part 2, we'll create a new column that explains each of the activity labels (1-6), using the 
 # activity_labels.txt file that's given to us.First, we'll read in the activity_labels.txt file.
@@ -80,9 +80,10 @@ for(old.lab in activities) {
   merged.dat2[,old.lab]<-factor(new.lab); #Replace the current variable in the data set with the altered copy.
 }
 
-#Quick check to make sure the loop worked:
+# Quick check to make sure the loop worked:
 table(merged.dat$Activity) #This is the original column with 1-6's.
-table(merged.dat2$Activity) #This is the new column with descriptions replacing the 1-6's. Identical tables indicate the loop worked.
+table(merged.dat2$Activity) #This is the new column with descriptions replacing the 1-6's. 
+# Identical table results indicate that the loop worked.
 
 #3c. Next, we'll create a copy of merged.dat2 for column header cleanup.
 merged.dat3<-merged.dat2
@@ -93,23 +94,27 @@ tidy.cols<-gsub("-",".",tidy.cols,) #replaces -'s with .'s
 tidy.cols<-sub(",","by",tidy.cols,) #replaces ,'s with the word "by"
 names(merged.dat3)<-tidy.cols
 
-#Relabeling is done. This completes Part 3.
+# Relabeling is done. This completes Part 3.
 
-#2a. Now let's begin building our second tidy dataset by extracting only measurements of the mean or standard deviation of a measure.
-mean.std<-grepl("mean|std",tidy.cols) #creates logical vector that indicates whether "std" (for standard deviation) or "mean" are in the column headers
-mean.std.dat<-subset(merged.dat3, select= c("SubjectID", "Activity", tidy.cols[mean.std=="TRUE"])) #subsets dataframe to only measures that contain a mean or std measurement, in addition to SubjectID and activity
+#2a. Now let's begin building our second tidy dataset by extracting only measurements of the mean or standard 
+# deviation of a measure.
+mean.std<-grepl("mean|std",tidy.cols) #logical vector that indicates whether "std" or "mean" are in the column names
+mean.std.dat<-subset(merged.dat3, select= c("SubjectID", "Activity", tidy.cols[mean.std=="TRUE"])) #subsets dataframe 
+# to only measures that contain a mean or std measurement, in addition to SubjectID and activity
 
-#Let's do a quick check for missing values in our extracted dataset
+#Let's do a quick check for missing values in our extracted dataset.
 any(is.na(mean.std.dat[,3:79])) #No missing values, so we can move on to calculating the averages of each of our measures
 
 #This completes Part 2. Now we can move on to Part 5, the final step.
 
 #5. We'll average each measure by activity, for each subject, using plyr operations.
-mean.std.dt<-data.table(mean.std.dat) #converts our data frame to a data table so we can use plyr operations for summarizing
-tidy.dat<-mean.std.dt[,lapply(.SD,mean), by= list(SubjectID=mean.std.dt$SubjectID, Activity=mean.std.dt$Activity)] #takes the mean of all measures, grouping by subjectID and activity
+mean.std.dt<-data.table(mean.std.dat) #converts our data frame to a data table so we can use plyr for summarizing
+tidy.dat<-mean.std.dt[,lapply(.SD,mean), by= list(SubjectID=mean.std.dt$SubjectID, Activity=mean.std.dt$Activity)] 
+# takes the mean of all measures, grouping by subjectID and activity
 tidy.dat<-tidy.dat[order(tidy.dat$SubjectID),] #orders data table so that Subject ID is in ascending order
 
-#5b. Our last step will rename the column headers for our newly averaged values, such that each column name indicates an averaged value
+#5b. Our last step will rename the column headers for our newly averaged values, such that each column name indicates 
+# an averaged value.
 edit.cols<-names(tidy.dat)[3:81]
 N<-length(edit.cols)
 
