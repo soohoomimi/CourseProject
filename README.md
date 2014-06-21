@@ -18,24 +18,24 @@ It does so slightly out of order in order to minimize the number of merges requi
 
 The script assumes that: 
 
-*The data were obtained from and downloaded by clicking the .zip file linked on the Course Project website: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
-*The data were unzipped onto the user's local drive.
-*The unzipped files and the file structure have not been altered by the user.
-*The home folder created by unzipping the files is set as the working directory. This is referred to as "C:/UCI HAR Dataset" in the script.
-*The user has the data.table package installed. 
+* The data were obtained from and downloaded by clicking the .zip file linked on the Course Project website: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+* The data were unzipped onto the user's local drive.
+* The unzipped files and the file structure have not been altered by the user.
+* The home folder created by unzipping the files is set as the working directory. This is referred to as "C:/UCI HAR Dataset" in the script.
+* The user has the data.table package installed. 
 
 ## Data files used 
 
 The following data files are called by run_analysis.R:
 
-*x_test.txt
-*x_train.txt 
-*y_test.txt
-*y_train.txt
-*subject_test.txt
-*subject_train.txt
-*features.txt
-*activity_labels.txt
+* x_test.txt
+* x_train.txt 
+* y_test.txt
+* y_train.txt
+* subject_test.txt
+* subject_train.txt
+* features.txt
+* activity_labels.txt
 
 ## General processing workflow
 
